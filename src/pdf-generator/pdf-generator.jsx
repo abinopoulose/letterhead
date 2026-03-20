@@ -45,8 +45,16 @@ const PdfGenerator = ({
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (fullHeight * pdfWidth) / fullWidth;
 
+    const now = new Date();
+    const dd = String(now.getDate()).padStart(2, '0');
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const yy = String(now.getFullYear()).slice(-2);
+    const hh = String(now.getHours()).padStart(2, '0');
+    const min = String(now.getMinutes()).padStart(2, '0');
+    const ss = String(now.getSeconds()).padStart(2, '0');
+    
     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save(`${fromName || 'verification'}.pdf`);
+    pdf.save(`glps_${dd}-${mm}-${yy}_${hh}-${min}-${ss}.pdf`);
   };
 
   return (

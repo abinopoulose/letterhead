@@ -139,7 +139,8 @@ body, .page {
 .body-paragraph {
   text-align: justify;
   margin-left: 2rem;
-  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
   font-weight: 1;
   font-family:'Times New Roman', Times, serif
 }

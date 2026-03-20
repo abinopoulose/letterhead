@@ -50,11 +50,11 @@ const TemplateLeo = ({ fromName, toName, issueDate, orderNumber, subject, ref, b
           <span>{language=='English'?"Ref": "സൂചന"}:</span>
           <span className="ref"> {ref}</span>
         </div>
-        <pre>
+        <div className="body-content">
         {body.split('\n').map((paragraph, index) => (
           <p key={index} className="body-paragraph">{paragraph}</p>
         ))}
-        </pre>
+        </div>
         <div className='yours-faithfully-section'>
           {yoursFaithfully}
         </div>
