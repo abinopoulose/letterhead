@@ -1,26 +1,48 @@
 import React, { useState } from 'react';
 import './pdf-form.css';
 
+const LS_KEY = 'gls_muthiyamala_form_data';
+
+const defaultFormData = {
+  fromName: '',
+  orderNumber: '',
+  issueDate: '',
+  toName: '',
+  subject: '',
+  ref: '',
+  body: '',
+  footer: '',
+  yoursFaithfully: '',
+  language: 'English'
+};
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) {
+      return { ...defaultFormData, ...JSON.parse(saved) };
+    }
+  } catch {
+    // Ignore parse errors and fall back to defaults
+  }
+  return defaultFormData;
+}
+
 const PdfForm = ({ onSubmit }) => {
-  const [formData, setFormData] = useState({
-    fromName: '',
-    orderNumber: '',
-    issueDate: '',
-    toName: '',
-    subject: '',
-    ref: '',
-    body: '',
-    footer: '',
-    yoursFaithfully: '',
-    language: 'English'
-  });
+  const [formData, setFormData] = useState(loadFromStorage);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    const updatedData = { ...formData, [name]: value };
+
+    setFormData(updatedData);
+
+    // Persist to localStorage on every change
+    try {
+      localStorage.setItem(LS_KEY, JSON.stringify(updatedData));
+    } catch {
+      // Ignore storage errors (e.g. private browsing quota)
+    }
 
     // Auto-resize textarea if it's the body field
     if (name === 'body') {
@@ -30,10 +52,7 @@ const PdfForm = ({ onSubmit }) => {
     }
 
     // Call onSubmit with updated form data
-    onSubmit({
-      ...formData,
-      [name]: value
-    });
+    onSubmit(updatedData);
   };
 
   const handleSubmit = (e) => {
