@@ -62,6 +62,7 @@ body {
   color: #07074D;
   outline: none;
   resize: none;
+  field-sizing: content;
 }
 
 .formbold-form-input::placeholder {
